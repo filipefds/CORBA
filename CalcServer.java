@@ -45,37 +45,32 @@ public class CalcServer {
 
     public static void main(String args[]) {
         try {
-            // create and initialize the ORB
+            // Inicialização do ORB
             ORB orb = ORB.init(args, null);
-
-            // get reference to rootpoa & activate the POAManager
+	    // obtém referência ao rootpoa e ativa o POAManager
             POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
             rootpoa.the_POAManager().activate();
-
-            // create servant and register it with the ORB
+	    // cria o servidor e registra no ORB
             CalcImpl helloImpl = new CalcImpl();
             helloImpl.setORB(orb);
-
-            // get object reference from the servant
+	    // obtém referência de objeto do servidor
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
             Calc href = CalcHelper.narrow(ref);
-
-            // get the root naming context
-            // NameService invokes the name service
+	    // obtém o contexto de nomenclatura da raiz
+            // NameService invoca o serviço de nomes
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            // Use NamingContextExt which is part of the Interoperable
-            // Naming Service (INS) specification.
+	    // Use NamingContextExt que faz parte do Interoperable
+            // Especificação do serviço de nomenclatura (INS).
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-            // bind the Object Reference in Naming
+	    // vincula a referência de objeto na nomenclatura
             String name = "Calc";
             NameComponent path[] = ncRef.to_name(name);
             ncRef.rebind(path, href);
 
             System.out.println("Servidor CORBA pronto e aguardando...");
 
-            // wait for invocations from clients
-            orb.run();
+            // espera por requisição de clientes
+	    orb.run();
         } catch (Exception e) {
             System.err.println("ERROR: " + e);
             e.printStackTrace(System.out);

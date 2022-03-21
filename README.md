@@ -1,2 +1,2 @@
 # CORBA
-Implementação de um servuidor CORBA para sistemas distribuídos.
+Implementação de um servidor CORBA para sistemas distribuídos.

@@ -19,21 +19,15 @@ public class CalcClient {
     public static void main(String args[]) {
 
         try {
-            // create and initialize the ORB
+            // Inicializando o ORB
             ORB orb = ORB.init(args, null);
-
-            // get the root naming context
+	    // obtém o contexto de nomenclatura da raiz
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            // Use NamingContextExt instead of NamingContext. This is
-            // part of the Interoperable naming Service.
+	    // Use NamingContextExt em vez de NamingContext. Isto é parte do Serviço de nomenclatura interoperável.
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-            // resolve the Object Reference in Naming
+	    // resolve a referência de objeto na nomeação
             String name = "Calc";
             calcImpl = CalcHelper.narrow(ncRef.resolve_str(name));
-
-//			System.out.println(calcImpl);
-
 
             while (true) {
                 out.println("1. Soma");
@@ -69,7 +63,7 @@ public class CalcClient {
                 out.println("");
 
             }
-            //calcImpl.shutdown();
+
         } catch (Exception e) {
             System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
